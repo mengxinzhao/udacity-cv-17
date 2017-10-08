@@ -1,0 +1,38 @@
+2.d: 
+What parameters did you use for finding lines in this image?
+Output: Text response describing your accumulator bin sizes, threshold and neighborhood size parameters for finding peaks, and why/how you picked those.
+accumulator bin size: 1 
+threshold=0.25 * acc.max(), n_hood_size= 50
+threshold too small I might not find enough peaks to draw a line. too big: I might end up with a lot of noisy lines
+hood_size= 50 is roughly 1/4 of the one side length of the picture.
+
+3. Text response: Describe what you had to do to get the best result you could
+The key here is to have a smooth enough image to work on in the first. I tried many gaussian filter sizes and it seems that size > 15 generate a good image for canny to
+get the right edges. Also canny min/max threshould plays a key. I have tried (50,100), or regulary ((1-sigma)*mean, (1+sigma)*mean) pair. They all seem to not be able to 
+detect a edge. min needs to really small like 20, 25. Now the problem for me is how do I get the min/max threshould right without actually running a gradient operation for 
+all the pixels
+
+Guassian filter: kernel size 19 x 19, sigma = 4.5
+Canny filter: kernel default to 3 x 3 min threshold 25, max threshold 50 
+hough threshold=0.25 * accumulator.max(), n_hood_size= 50
+
+4.Text response: Describe what you had to do to get the best result you could
+Guassian filter: kernel size 19 x 19, sigma = 4.5
+Canny filter: kernel default to 3 x 3 min threshold 25, max threshold 50 
+hough threshold=0.25 * accumulator.max(), n_hood_size= 50
+
+5. Describe what you had to do to find circles
+all in the source codes
+
+6.I found all possible lines in the image 
+
+7. Output: Text response (if you did these steps, mention where they are in the code by file, line no. and also include brief snippets)
+The problem is circle is also found is N where the arch of N is falsely recognized as circle if I use Gaussianblur
+Had to use erode function to thinning the edge of edge and se bilaterial filter to get the best edge images then use hough circle detector
+The circle detector detects multiple circles for the pretty much the same center. Have to search the neighbor hood area to select the most voted 
+center.
+
+8.circle detection doesn't work well. Need to have elliptical  or more general circle detection. Line detection doesn't work that well too. I think because of the edeg image has a lot of noises so straight line doesn't really look straight and hough line detection doesn't work as supposed to
+
+
+
